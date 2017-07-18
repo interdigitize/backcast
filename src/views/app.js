@@ -23,6 +23,10 @@ var AppView = Backbone.View.extend({
       collection: this.videos
     }).render();
     
+    // var videoListView = new VideoListView({collection: this.videos});
+    // console.log(videoListView.$el)    videoListView.$el.append(videoListView.render());
+    // console.log(videoListView.$el)
+    
     
     // return this;
   },
