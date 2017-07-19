@@ -4,19 +4,27 @@ var AppView = Backbone.View.extend({
 
   initialize: function() {
     this.videos = new Videos(exampleVideoData);
+    this.render();
+    
+    this.videos.on('select', e => this.render(e));
   },
 
-
-  render: function() {
-    
+  render: function(model) {
+    model = model || this.videos.at(0);
     this.$el.html(this.template());
     
-    // why can't we move the instantiations up to initialize?
-    var videoPlayerView = new VideoPlayerView();
-    videoPlayerView.$el.append(videoPlayerView.render());
+    // var videoPlayerView = new VideoPlayerView();
+    // videoPlayerView.$el.append(videoPlayerView.render());
     
-    var search = new SearchView();
-    search.$el.append(search.render());
+    new VideoPlayerView({
+      el: this.$('.player'), 
+      collection: this.videos,
+      model: model
+    }).render();
+    
+    new SearchView().render();
+    // var search = new SearchView();
+    // search.$el.append(search.render());
     
     new VideoListView({
       el: this.$('.list'),
