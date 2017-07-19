@@ -4,8 +4,10 @@ var AppView = Backbone.View.extend({
 
   initialize: function() {
     this.videos = new Videos(exampleVideoData);
+    console.log(this.videos);
     this.render();
     this.videos.on('select', e => this.render(e));
+    //this.videos.on('update', e => this.render(e));
   },
 
   render: function(model) {
@@ -15,13 +17,20 @@ var AppView = Backbone.View.extend({
     // var videoPlayerView = new VideoPlayerView();
     // videoPlayerView.$el.append(videoPlayerView.render());
     
+    if (this.videos.searchResults) {
+      this.videos = this.videos.searchResults;
+    }
+
     new VideoPlayerView({
       el: this.$('.player'), 
       collection: this.videos,
       model: model
     }).render();
     
-    new SearchView().render();
+    new SearchView({
+      el: this.$('.search'),
+      collection: this.videos
+    }).render();
     // var search = new SearchView();
     // search.$el.append(search.render());
     

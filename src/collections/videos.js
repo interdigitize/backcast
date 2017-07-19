@@ -1,12 +1,13 @@
 var Videos = Backbone.Collection.extend({
 
   model: Video,
-  search: function() {
+  searchResults: null,
+  search: function(query) {
    
     var settings = {
       'async': true,
       'crossDomain': true,
-      'url': 'https://www.googleapis.com/youtube/v3/search?key=' + window.YOUTUBE_API_KEY + '&maxResults=5&q=surfing&type=video&part=snippet',
+      'url': 'https://www.googleapis.com/youtube/v3/search?key=' + window.YOUTUBE_API_KEY + '&maxResults=5&q=' + query + '&type=video&part=snippet',
       'method': 'GET',
       'headers': {
         'cache-control': 'no-cache',
@@ -15,7 +16,8 @@ var Videos = Backbone.Collection.extend({
     };
 
     $.ajax(settings).done(function (response) {
-      console.log(response);
+      this.searchResults = response.items;
+      console.log(this.searchResults);
     });
   }
   
